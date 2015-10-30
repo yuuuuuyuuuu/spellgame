@@ -4,14 +4,23 @@ using UnityEngine.UI;
 
 public class SGGameTimeRemainController : MonoBehaviour 
 {
-	private Image timeRmnImg;
+	private Image timeRmnBar;
 	private Text timeRmnTxt;
+
+	private Animator animator;
 	
 	private float timeRemain = 0f;
+	private float timeRemainMax = 0f;
+	private float cautionThres = 0f;
+	private float warningThres = 0f;
 	private bool isTimerOn = false;
+	private bool isWarning = false;
+	private bool isCaution = false;
 	
-	private static string FORMAT_TIME_REMAIN_OUTPUT = "F2";
-	
+	private static string OUTPUT_FORMAT_TIME_REMAIN = "F2";
+	private static string ANIM_BOOL_CAUTION = "caution";
+	private static string ANIM_BOOL_WARNING = "warning";
+
 	/* Unity functions */
 	void Awake()
 	{
@@ -21,7 +30,9 @@ public class SGGameTimeRemainController : MonoBehaviour
 	void Start()
 	{
 		// DEBUG
-		this.InitTimeBar(60f);
+		this.InitTimeBar(20f);
+		this.SetCautionThres(15f);
+		this.SetWarningThres(10f);
 		this.StartTimeBar();	
 	}
 	
@@ -38,8 +49,19 @@ public class SGGameTimeRemainController : MonoBehaviour
 	public void InitTimeBar(float duration)
 	{
 		this.timeRemain = duration;
+		this.timeRemainMax = duration;
 	}
-	
+
+	public void SetCautionThres(float thres)
+	{
+		this.cautionThres = thres;
+	}
+
+	public void SetWarningThres(float thres)
+	{
+		this.warningThres = thres;
+	}
+
 	public void StartTimeBar()
 	{
 		this.isTimerOn = true;
@@ -60,17 +82,44 @@ public class SGGameTimeRemainController : MonoBehaviour
 	
 	private void updateRemainText()
 	{
-		this.timeRmnTxt.text = this.timeRemain.ToString(FORMAT_TIME_REMAIN_OUTPUT);
+		this.timeRmnTxt.text = this.timeRemain.ToString(OUTPUT_FORMAT_TIME_REMAIN);
 	}
 	
 	private void updateRemainBar()
 	{
-		
+		float remainRatio = this.timeRemain / this.timeRemainMax;
+		this.timeRmnBar.rectTransform.localScale = new Vector3(remainRatio, 1f, 1f);
+
+		if(this.timeRemain < this.cautionThres && this.warningThres < this.timeRemain) this.startCaution();
+		else if(this.timeRemain < this.warningThres) this.startWarning();
+	}
+
+	private void startCaution()
+	{
+		if(!this.isCaution) 
+		{
+			Debug.Log("start");
+			this.animator.SetBool(ANIM_BOOL_CAUTION, true);
+			this.isCaution = true;
+		}
+
+	}
+
+	private void startWarning()
+	{
+		if(!this.isWarning)
+		{
+			Debug.Log("start");
+			this.animator.SetBool(ANIM_BOOL_WARNING, true);
+			this.isWarning = true;
+		}
+
 	}
 	
 	private void setupObjs()
 	{
-		this.timeRmnImg = GameObject.Find("SGGameTimeRemainBarImg").GetComponent<Image>();
+		this.timeRmnBar = GameObject.Find("SGGameTimeRemainBarImg").GetComponent<Image>();
 		this.timeRmnTxt = GameObject.Find("SGGameTimeRemainText").GetComponent<Text>();
+		this.animator = this.GetComponent<Animator>();
 	}
 }
