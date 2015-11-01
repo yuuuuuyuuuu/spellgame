@@ -57,6 +57,7 @@
      <Compile Include="Assets\Externals\UnitySamplesUI\Scripts\ShowSliderValue.cs" />
      <Compile Include="Assets\Externals\UnitySamplesUI\Scripts\TiltWindow.cs" />
      <Compile Include="Assets\Scripts\SGGameDebugUtil\SGGameDebugUtil.cs" />
+     <Compile Include="Assets\Scripts\SGGameFramerateController\SGGameFramerateController.cs" />
      <Compile Include="Assets\Scripts\SGGameTimeRemain\SGGameTimeRemainController.cs" />
      <None Include="Assets\Externals\UnitySamplesUI\Fonts\Jupiter\LICENSE.txt" />
      <None Include="Assets\Externals\UnitySamplesUI\Textures and Sprites\SF UI\Background\LICENSE.txt" />

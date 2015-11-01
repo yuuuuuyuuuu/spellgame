@@ -18,8 +18,8 @@ public class SGGameTimeRemainController : MonoBehaviour
 	private bool isCaution = false;
 	
 	private static string OUTPUT_FORMAT_TIME_REMAIN = "F2";
-	private static string ANIM_BOOL_CAUTION = "caution";
-	private static string ANIM_BOOL_WARNING = "warning";
+	private static string ANIM_TRG_CAUTION = "caution";
+	private static string ANIM_TRG_WARNING = "warning";
 
 	/* Unity functions */
 	void Awake()
@@ -99,7 +99,7 @@ public class SGGameTimeRemainController : MonoBehaviour
 		if(!this.isCaution) 
 		{
 			Debug.Log("start");
-			this.animator.SetBool(ANIM_BOOL_CAUTION, true);
+			this.animator.SetTrigger(ANIM_TRG_CAUTION);
 			this.isCaution = true;
 		}
 
@@ -110,7 +110,7 @@ public class SGGameTimeRemainController : MonoBehaviour
 		if(!this.isWarning)
 		{
 			Debug.Log("start");
-			this.animator.SetBool(ANIM_BOOL_WARNING, true);
+			this.animator.SetTrigger(ANIM_TRG_WARNING);
 			this.isWarning = true;
 		}
 
